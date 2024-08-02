@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('layouts/head')%>
+  <body>
+    <%- include('layouts/header')%>
+    <main>
+      <h1 class="color-green">Welcome to blogs page.</h1>
+      <% if(blogs.length> 0) { %>
+      <table>
+        <tr>
+          <th>Title</th>
+          <th>Content</th>
+          <th>Author</th>
+          <th>Creation Date</th>
+          <th>Action</th>
+        </tr>
+        <% for(let blog of blogs) { %>
+        <tr>
+          <td><%= blog.title %></td>
+          <td><%= blog.content %></td>
+          <td><%= blog.author %></td>
+          <td><%= blog.creationDate %></td>
+          <td class="inline-block">
+            <form action="/view-blog" method="POST">
+              <input type="hidden" value="<%= blog.id %>" name="blogId" />
+              <button class="btn view" type="submit">View</button>
+            </form>
+            <a href="/posts/<%= blog.id %>/edit?edit=true" class="btn">Edit</a>
+            <form action="/delete-blog" method="POST" class="margin-top">
+              <input type="hidden" value="<%= blog.id %>" name="blogId" />
+              <button class="btn delete" type="submit">Delete</button>
+            </form>
+          </td>
+        </tr>
+        <% } %>
+      </table>
+      <% } else { %>
+      <p class="no-data">No blogs list found!</p>
+      <% } %>
+    </main>
+    <%- include('layouts/footer')%>
+  </body>
+</html>

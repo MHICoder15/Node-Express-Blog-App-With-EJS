@@ -1,0 +1,94 @@
+.blog-form {
+  width: 500px;
+  border: 2px solid #a1a1a1;
+  border-radius: 5px;
+  padding: 20px 30px;
+  margin: 1rem 0 0 0;
+}
+
+.form-control {
+  margin: 0 0 1rem 0;
+}
+
+.form-control label,
+.form-control input {
+  display: block;
+  width: 100%;
+  margin-bottom: 0.25rem;
+}
+
+.form-control input {
+  border: 1px solid #a1a1a1;
+  font: inherit;
+  border-radius: 5px;
+  padding: 8px;
+}
+
+.form-control input:focus {
+  outline-color: #0f63fe;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.25rem 1rem;
+  text-decoration: none;
+  font: inherit;
+  border: 1px solid #0f63fe;
+  color: #0f63fe;
+  background: white;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.btn.delete {
+  border: 1px solid #fa4d56;
+  color: #fa4d56;
+}
+
+.btn.view {
+  border: 1px solid #42be65;
+  color: #42be65;
+}
+
+.btn.view:hover,
+.btn.view:active {
+  background-color: #42be65;
+  color: white;
+}
+
+.btn:hover,
+.btn:active {
+  background-color: #0f63fe;
+  color: white;
+}
+
+.btn.delete:hover,
+.btn.delete:active {
+  background-color: #fa4d56;
+}
+
+.margin-top {
+  margin-top: 5px;
+}
+
+table {
+  border-collapse: collapse;
+  width: 50%;
+  margin: 1rem 0 0 0;
+}
+
+td,
+th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #f5f5f5;
+}
+
+td.inline-block a,
+td.inline-block form {
+  display: inline-block;
+}
