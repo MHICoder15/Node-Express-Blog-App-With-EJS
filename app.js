@@ -3,8 +3,17 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const blogRoutes = require("./routes/blog");
 const errorController = require("./controllers/error");
+// const db = require("./utils/database");
 
 const app = express();
+
+// db.execute("SELECT * FROM blog_data")
+//   .then((result) => {
+//     console.log("Result:", result);
+//   })
+//   .catch((err) => {
+//     console.log("blog data table error:", err);
+//   });
 
 // Middleware for body parser
 app.use(bodyParser.urlencoded({ extended: false }));
