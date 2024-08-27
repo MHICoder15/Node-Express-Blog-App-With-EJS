@@ -1,4 +1,4 @@
-const db = require("../utils/database");
+const db = require("../utils/database.util");
 module.exports = class Blog {
   constructor(id, title, content, author, creationDate) {
     this.id = id;
@@ -35,6 +35,7 @@ module.exports = class Blog {
   }
 };
 
+////////////////      FOR FILE DIRECTORY DATA START     ////////////////
 // const fs = require("fs");
 // const path = require("path");
 // const filePath = path.join(
@@ -42,7 +43,6 @@ module.exports = class Blog {
 //   "data",
 //   "blogs.json"
 // );
-
 // const getBlogsFromFile = (callback) => {
 //   fs.readFile(filePath, (err, fileContent) => {
 //     if (err) {
@@ -52,7 +52,6 @@ module.exports = class Blog {
 //     }
 //   });
 // };
-
 // module.exports = class Blog {
 //   constructor(id, title, content, author, creationDate) {
 //     this.id = id;
@@ -61,11 +60,9 @@ module.exports = class Blog {
 //     this.author = author;
 //     this.creationDate = creationDate;
 //   }
-
 //   static fetchAll(callback) {
 //     getBlogsFromFile(callback);
 //   }
-
 //   save() {
 //     getBlogsFromFile((blogs) => {
 //       if (this.id) {
@@ -87,14 +84,12 @@ module.exports = class Blog {
 //       }
 //     });
 //   }
-
 //   static findById(id, cb) {
 //     getBlogsFromFile((blogs) => {
 //       const blog = blogs.find((u) => u.id === id);
 //       cb(blog);
 //     });
 //   }
-
 //   static deleteById(id) {
 //     getBlogsFromFile((blogs) => {
 //       const updatedBlogs = blogs.filter((blog) => blog.id !== id);
@@ -104,3 +99,4 @@ module.exports = class Blog {
 //     });
 //   }
 // };
+////////////////      FOR FILE DIRECTORY DATA END     ////////////////

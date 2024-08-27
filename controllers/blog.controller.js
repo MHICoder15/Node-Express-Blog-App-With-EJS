@@ -1,4 +1,4 @@
-const Blog = require("../models/blog");
+const Blog = require("../models/blog.model");
 
 // Get all the blog data
 exports.getBlogsData = (req, res, next) => {
