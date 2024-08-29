@@ -1,41 +1,73 @@
-const db = require("../utils/database.util");
-module.exports = class Blog {
-  constructor(id, title, content, author, creationDate) {
-    this.id = id;
-    this.title = title;
-    this.content = content;
-    this.author = author;
-    this.creationDate = creationDate;
-  }
+const { Sequelize } = require("sequelize");
+const sequelize = require("../utils/database.util");
 
-  static fetchAll() {
-    return db.execute("SELECT * FROM blog_data");
-  }
+const Blog = sequelize.define("blog", {
+  id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  title: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  content: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  author: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  creationDate: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+});
 
-  save(blogId) {
-    if (blogId) {
-      return db.execute(
-        "UPDATE blog_data SET blog_data.title = ?,blog_data.content = ? ,blog_data.author = ?, blog_data.creationDate = ? WHERE blog_data.id = ?",
-        [this.title, this.content, this.author, this.creationDate, blogId]
-      );
-    } else {
-      return db.execute(
-        "INSERT INTO blog_data (title, content, author, creationDate) VALUES(?, ?, ?, ?)",
-        [this.title, this.content, this.author, this.creationDate]
-      );
-    }
-  }
+module.exports = Blog;
 
-  static findById(id) {
-    return db.execute("SELECT * FROM blog_data WHERE blog_data.id = ?", [id]);
-  }
+////////////////      FOR MYSQL QUERY START     ////////////////
+// const db = require("../utils/database.util");
+// module.exports = class Blog {
+//   constructor(id, title, content, author, creationDate) {
+//     this.id = id;
+//     this.title = title;
+//     this.content = content;
+//     this.author = author;
+//     this.creationDate = creationDate;
+//   }
 
-  static deleteById(id) {
-    return db.execute("DELETE FROM blog_data WHERE blog_data.id = ?", [id]);
-  }
-};
+//   static fetchAll() {
+//     return db.execute("SELECT * FROM blog");
+//   }
 
-////////////////      FOR FILE DIRECTORY DATA START     ////////////////
+//   save(blogId) {
+//     if (blogId) {
+//       return db.execute(
+//         "UPDATE blog SET title = ?,content = ? ,author = ?, creationDate = ? WHERE id = ?",
+//         [this.title, this.content, this.author, this.creationDate, blogId]
+//       );
+//     } else {
+//       return db.execute(
+//         "INSERT INTO blog (title, content, author, creationDate) VALUES(?, ?, ?, ?)",
+//         [this.title, this.content, this.author, this.creationDate]
+//       );
+//     }
+//   }
+
+//   static findById(id) {
+//     return db.execute("SELECT * FROM blog WHERE blog.id = ?", [id]);
+//   }
+
+//   static deleteById(id) {
+//     return db.execute("DELETE FROM blog WHERE blog.id = ?", [id]);
+//   }
+// };
+////////////////      FOR MYSQL QUERY END     ////////////////
+
+////////////////      FOR FILE JSON START     ////////////////
 // const fs = require("fs");
 // const path = require("path");
 // const filePath = path.join(
@@ -99,4 +131,4 @@ module.exports = class Blog {
 //     });
 //   }
 // };
-////////////////      FOR FILE DIRECTORY DATA END     ////////////////
+////////////////      FOR FILE JSON END     ////////////////

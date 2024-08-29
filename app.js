@@ -3,11 +3,11 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const blogRoutes = require("./routes/blog.route");
 const errorController = require("./controllers/error.controller");
-// const db = require("./utils/database");
+const sequelize = require("./utils/database.util");
 
 const app = express();
 
-// db.execute("SELECT * FROM blog_data")
+// db.execute("SELECT * FROM blog")
 //   .then((result) => {
 //     console.log("Result:", result);
 //   })
@@ -31,4 +31,10 @@ app.set("views", "views");
 app.use(blogRoutes);
 app.use(errorController.routeNotFound404);
 
-app.listen(3000, () => console.log("Server is running on port 3000"));
+sequelize
+  .sync()
+  .then((result) => {
+    // console.log("🚀 ~ result:", result);
+    app.listen(3000, () => console.log("Server is running on port 3000"));
+  })
+  .catch((err) => console.log("Connecting to Sequelize DB Error:", err));
