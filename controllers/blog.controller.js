@@ -21,12 +21,20 @@ exports.postAddBlog = (req, res, next) => {
   const content = req.body.content;
   const author = req.body.author;
   const creationDate = req.body.creationDate;
-  Blog.create({
-    title: title,
-    content: content,
-    author: author,
-    creationDate: creationDate,
-  })
+  req.user
+    .createBlog({
+      title: title,
+      content: content,
+      author: author,
+      creationDate: creationDate,
+    })
+    // Blog.create({
+    //   title: title,
+    //   content: content,
+    //   author: author,
+    //   creationDate: creationDate,
+    //   userId: req.user.id,
+    // })
     .then(() => {
       res.redirect("/");
     })
