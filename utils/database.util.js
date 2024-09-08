@@ -1,11 +1,44 @@
-const { Sequelize } = require("sequelize");
+////////////////      FOR CONNECT MONGODB DATABASE END     ////////////////
+const mongodb = require("mongodb");
+const MongoClient = mongodb.MongoClient;
+let _db;
 
-const sequelize = new Sequelize("blog_db", "root", "$MySQL628$", {
-  dialect: "mysql",
-  host: "localhost",
-});
+const connectMongoDB = (callback) => {
+  MongoClient.connect(
+    "mongodb+srv://mhi_tech628:MongoDB628@mhi-tech-cluster.agylcqm.mongodb.net/blogDB?retryWrites=true&w=majority&appName=MHI-Tech-Cluster"
+  )
+    .then((client) => {
+      console.log("MongoDB Connected");
+      _db = client.db();
+      callback();
+    })
+    .catch((error) => {
+      console.log("MongoDB Connection Error:", error);
+      throw error;
+    });
+};
 
-module.exports = sequelize;
+const getDB = () => {
+  if (_db) {
+    return _db;
+  }
+  throw "No Database Found.";
+};
+
+exports.connectMongoDB = connectMongoDB;
+exports.getDB = getDB;
+////////////////      FOR CONNECT MONGODB DATABASE END     ////////////////
+
+////////////////      FOR CONNECT SEQUELIZE DATABASE START     ////////////////
+// const { Sequelize } = require("sequelize");
+
+// const sequelize = new Sequelize("blog_db", "root", "$MySQL628$", {
+//   dialect: "mysql",
+//   host: "localhost",
+// });
+
+// module.exports = sequelize;
+////////////////      FOR CONNECT SEQUELIZE DATABASE END     ////////////////
 
 ////////////////      FOR CONNECT MYSQL DATABASE START     ////////////////
 // const mysql = require("mysql2");

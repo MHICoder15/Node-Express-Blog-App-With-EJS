@@ -1,32 +1,90 @@
-const { Sequelize } = require("sequelize");
-const sequelize = require("../utils/database.util");
+////////////////      FOR MONGoDB START     ////////////////
+const getDB = require("../utils/database.util").getDB;
+const mongodb = require("mongodb");
 
-const Blog = sequelize.define("blog", {
-  id: {
-    type: Sequelize.INTEGER,
-    allowNull: false,
-    autoIncrement: true,
-    primaryKey: true,
-  },
-  title: {
-    type: Sequelize.STRING,
-    allowNull: false,
-  },
-  content: {
-    type: Sequelize.STRING,
-    allowNull: false,
-  },
-  author: {
-    type: Sequelize.STRING,
-    allowNull: false,
-  },
-  creationDate: {
-    type: Sequelize.STRING,
-    allowNull: false,
-  },
-});
+module.exports = class Blog {
+  constructor(title, content, author, creationDate) {
+    this.title = title;
+    this.content = content;
+    this.author = author;
+    this.creationDate = creationDate;
+  }
+  save() {
+    const db = getDB();
+    return db
+      .collection("blogs")
+      .insertOne(this)
+      .then((blog) => {
+        console.log("🚀 ~ Blog ~ save ~ blog:", blog);
+      })
+      .catch((error) => {
+        console.log("🚀 ~ Blog ~ save ~ error:", error);
+      });
+  }
 
-module.exports = Blog;
+  static findAll() {
+    const db = getDB();
+    return db
+      .collection("blogs")
+      .find()
+      .toArray()
+      .then((blogs) => {
+        console.log("🚀 ~ Blog ~ findAll ~ blogs:", blogs);
+        return blogs;
+      })
+      .catch((error) => {
+        console.log("🚀 ~ Blog ~ findAll ~ error:", error);
+      });
+  }
+
+  static findById(blogId) {
+    const db = getDB();
+    return db
+      .collection("blogs")
+      .find({ _id: mongodb.ObjectId.createFromHexString(blogId) })
+      .next()
+      .then((blog) => {
+        console.log("🚀 ~ Blog ~ findById ~ blogs:", blog);
+        return blog;
+      })
+      .catch((error) => {
+        console.log("🚀 ~ Blog ~ findById ~ error:", error);
+      });
+  }
+};
+////////////////      FOR MONGoDB END     ////////////////
+
+////////////////      FOR SEQUELIZE QUERY START     ////////////////
+// const { Sequelize } = require("sequelize");
+// const sequelize = require("../utils/database.util");
+
+// const Blog = sequelize.define("blog", {
+//   id: {
+//     type: Sequelize.INTEGER,
+//     allowNull: false,
+//     autoIncrement: true,
+//     primaryKey: true,
+//   },
+//   title: {
+//     type: Sequelize.STRING,
+//     allowNull: false,
+//   },
+//   content: {
+//     type: Sequelize.STRING,
+//     allowNull: false,
+//   },
+//   author: {
+//     type: Sequelize.STRING,
+//     allowNull: false,
+//   },
+//   creationDate: {
+//     type: Sequelize.STRING,
+//     allowNull: false,
+//   },
+// });
+
+// module.exports = Blog;
+////////////////      FOR SEQUELIZE QUERY END     ////////////////
 
 ////////////////      FOR MYSQL QUERY START     ////////////////
 // const db = require("../utils/database.util");
