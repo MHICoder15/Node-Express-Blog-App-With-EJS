@@ -25,7 +25,7 @@
               <input type="hidden" value="<%= blog._id %>" name="blogId" />
               <button class="btn view" type="submit">View</button>
             </form>
-            <a href="/posts/<%= blog.id %>/edit?edit=true" class="btn">Edit</a>
+            <a href="/posts/<%= blog._id %>/edit?edit=true" class="btn">Edit</a>
             <form action="/delete-blog" method="POST" class="margin-top">
               <input type="hidden" value="<%= blog._id %>" name="blogId" />
               <button class="btn delete" type="submit">Delete</button>

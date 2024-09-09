@@ -3,17 +3,24 @@ const getDB = require("../utils/database.util").getDB;
 const mongodb = require("mongodb");
 
 module.exports = class Blog {
-  constructor(title, content, author, creationDate) {
+  constructor(title, content, author, creationDate, id) {
     this.title = title;
     this.content = content;
     this.author = author;
     this.creationDate = creationDate;
+    this._id = id ? new mongodb.ObjectId(id) : null;
   }
   save() {
     const db = getDB();
-    return db
-      .collection("blogs")
-      .insertOne(this)
+    let dbOp;
+    if (this._id) {
+      dbOp = db
+        .collection("blogs")
+        .updateOne({ _id: this._id }, { $set: this });
+    } else {
+      dbOp = db.collection("blogs").insertOne(this);
+    }
+    return dbOp
       .then((blog) => {
         console.log("🚀 ~ Blog ~ save ~ blog:", blog);
       })
@@ -49,6 +56,19 @@ module.exports = class Blog {
       })
       .catch((error) => {
         console.log("🚀 ~ Blog ~ findById ~ error:", error);
+      });
+  }
+
+  static deleteById(blogId) {
+    const db = getDB();
+    return db
+      .collection("blogs")
+      .deleteOne({ _id: new mongodb.ObjectId(blogId) })
+      .then((blog) => {
+        console.log("🚀 ~ Blog ~ deleteById ~ blog:", blog);
+      })
+      .catch((error) => {
+        console.log("🚀 ~ Blog ~ deleteById ~ error:", error);
       });
   }
 };

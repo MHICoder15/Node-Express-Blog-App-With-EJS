@@ -32,12 +32,11 @@ exports.postAddBlog = (req, res, next) => {
 
 exports.getEditBlog = (req, res, next) => {
   const editMode = req.query.edit;
-  console.log("🚀 ~ req.query:", req.query);
   if (!editMode) {
     return res.redirect("/");
   }
   const blogId = req.params.blogId;
-  Blog.findByPk(blogId)
+  Blog.findById(blogId)
     .then((blogData) => {
       if (!blogData) {
         return res.redirect("/");
@@ -57,13 +56,11 @@ exports.postEditBlog = (req, res, next) => {
   const content = req.body.content;
   const author = req.body.author;
   const creationDate = req.body.creationDate;
-  Blog.findByPk(blogId)
+  const blog = new Blog(title, content, author, creationDate, blogId);
+  blog
+    .save()
     .then((blog) => {
-      blog.title = title;
-      blog.content = content;
-      blog.author = author;
-      blog.creationDate = creationDate;
-      return blog.save();
+      console.log("🚀 ~ .then ~ blog:", blog);
     })
     .then(() => {
       console.log("Blog Updated Successfully.");
@@ -74,20 +71,12 @@ exports.postEditBlog = (req, res, next) => {
 
 exports.postDeleteBlog = (req, res, next) => {
   const blogId = req.body.blogId;
-  Blog.findByPk(blogId)
-    .then((blog) => {
-      return blog.destroy();
-    })
+  Blog.deleteById(blogId)
     .then(() => {
       console.log("Blog Deleted Successfully.");
       res.redirect("/");
     })
     .catch((err) => console.log("Delete Blog Error:", err));
-  // Blog.destroy({ where: { id: blogId } })
-  //   .then(() => {
-  //     res.redirect("/");
-  //   })
-  //   .catch((err) => console.log("Delete Blog Error:", err));
 };
 
 exports.postViewBlog = (req, res, next) => {

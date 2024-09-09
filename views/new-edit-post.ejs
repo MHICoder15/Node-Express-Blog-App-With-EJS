@@ -50,7 +50,7 @@
           />
         </div>
         <% if (editing) { %>
-        <input type="hidden" value="<%= blog.id %>" name="blogId" />
+        <input type="hidden" value="<%= blog._id %>" name="blogId" />
         <% } %>
         <button class="btn" type="submit">
           <% if (editing) { %>Update blog<% } else { %>Add blog<% } %>
