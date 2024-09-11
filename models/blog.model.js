@@ -1,78 +1,106 @@
-////////////////      FOR MONGoDB START     ////////////////
-const getDB = require("../utils/database.util").getDB;
-const mongodb = require("mongodb");
+////////////////      FOR MONGOOSE START     ////////////////
+const mongoose = require("mongoose");
 
-module.exports = class Blog {
-  constructor(title, content, author, creationDate, id) {
-    this.title = title;
-    this.content = content;
-    this.author = author;
-    this.creationDate = creationDate;
-    this._id = id ? new mongodb.ObjectId(id) : null;
-  }
-  save() {
-    const db = getDB();
-    let dbOp;
-    if (this._id) {
-      dbOp = db
-        .collection("blogs")
-        .updateOne({ _id: this._id }, { $set: this });
-    } else {
-      dbOp = db.collection("blogs").insertOne(this);
-    }
-    return dbOp
-      .then((blog) => {
-        console.log("🚀 ~ Blog ~ save ~ blog:", blog);
-      })
-      .catch((error) => {
-        console.log("🚀 ~ Blog ~ save ~ error:", error);
-      });
-  }
+const blogScheme = new mongoose.Schema(
+  {
+    title: {
+      type: String,
+      required: true,
+    },
+    content: {
+      type: String,
+      required: true,
+    },
+    author: {
+      type: String,
+      required: true,
+    },
+    creationDate: {
+      type: String,
+      required: true,
+    },
+  },
+  { timestamps: true }
+);
 
-  static findAll() {
-    const db = getDB();
-    return db
-      .collection("blogs")
-      .find()
-      .toArray()
-      .then((blogs) => {
-        console.log("🚀 ~ Blog ~ findAll ~ blogs:", blogs);
-        return blogs;
-      })
-      .catch((error) => {
-        console.log("🚀 ~ Blog ~ findAll ~ error:", error);
-      });
-  }
+module.exports = mongoose.model("Blog", blogScheme);
+////////////////      FOR MONGOOSE END     ////////////////
 
-  static findById(blogId) {
-    const db = getDB();
-    return db
-      .collection("blogs")
-      .find({ _id: mongodb.ObjectId.createFromHexString(blogId) })
-      .next()
-      .then((blog) => {
-        console.log("🚀 ~ Blog ~ findById ~ blogs:", blog);
-        return blog;
-      })
-      .catch((error) => {
-        console.log("🚀 ~ Blog ~ findById ~ error:", error);
-      });
-  }
+////////////////      FOR MONGODB START     ////////////////
+// const getDB = require("../utils/database.util").getDB;
+// const mongodb = require("mongodb");
 
-  static deleteById(blogId) {
-    const db = getDB();
-    return db
-      .collection("blogs")
-      .deleteOne({ _id: new mongodb.ObjectId(blogId) })
-      .then((blog) => {
-        console.log("🚀 ~ Blog ~ deleteById ~ blog:", blog);
-      })
-      .catch((error) => {
-        console.log("🚀 ~ Blog ~ deleteById ~ error:", error);
-      });
-  }
-};
-////////////////      FOR MONGoDB END     ////////////////
+// module.exports = class Blog {
+//   constructor(title, content, author, creationDate, id) {
+//     this.title = title;
+//     this.content = content;
+//     this.author = author;
+//     this.creationDate = creationDate;
+//     this._id = id ? new mongodb.ObjectId(id) : null;
+//   }
+//   save() {
+//     const db = getDB();
+//     let dbOp;
+//     if (this._id) {
+//       dbOp = db
+//         .collection("blogs")
+//         .updateOne({ _id: this._id }, { $set: this });
+//     } else {
+//       dbOp = db.collection("blogs").insertOne(this);
+//     }
+//     return dbOp
+//       .then((blog) => {
+//         console.log("🚀 ~ Blog ~ save ~ blog:", blog);
+//       })
+//       .catch((error) => {
+//         console.log("🚀 ~ Blog ~ save ~ error:", error);
+//       });
+//   }
+
+//   static findAll() {
+//     const db = getDB();
+//     return db
+//       .collection("blogs")
+//       .find()
+//       .toArray()
+//       .then((blogs) => {
+//         console.log("🚀 ~ Blog ~ findAll ~ blogs:", blogs);
+//         return blogs;
+//       })
+//       .catch((error) => {
+//         console.log("🚀 ~ Blog ~ findAll ~ error:", error);
+//       });
+//   }
+
+//   static findById(blogId) {
+//     const db = getDB();
+//     return db
+//       .collection("blogs")
+//       .find({ _id: mongodb.ObjectId.createFromHexString(blogId) })
+//       .next()
+//       .then((blog) => {
+//         console.log("🚀 ~ Blog ~ findById ~ blogs:", blog);
+//         return blog;
+//       })
+//       .catch((error) => {
+//         console.log("🚀 ~ Blog ~ findById ~ error:", error);
+//       });
+//   }
+
+//   static deleteById(blogId) {
+//     const db = getDB();
+//     return db
+//       .collection("blogs")
+//       .deleteOne({ _id: new mongodb.ObjectId(blogId) })
+//       .then((blog) => {
+//         console.log("🚀 ~ Blog ~ deleteById ~ blog:", blog);
+//       })
+//       .catch((error) => {
+//         console.log("🚀 ~ Blog ~ deleteById ~ error:", error);
+//       });
+//   }
+// };
+////////////////      FOR MONGODB END     ////////////////
 
 ////////////////      FOR SEQUELIZE QUERY START     ////////////////
 // const { Sequelize } = require("sequelize");

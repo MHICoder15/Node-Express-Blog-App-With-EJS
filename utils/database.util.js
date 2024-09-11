@@ -1,30 +1,51 @@
-////////////////      FOR CONNECT MONGODB DATABASE END     ////////////////
-const mongodb = require("mongodb");
-const MongoClient = mongodb.MongoClient;
-let _db;
+////////////////      FOR CONNECT MONGOOSE DATABASE START     ////////////////
+const mongoose = require("mongoose");
 
 const connectMongoDB = (callback) => {
-  MongoClient.connect("")
-    .then((client) => {
-      console.log("MongoDB Connected");
-      _db = client.db();
+  mongoose
+    .connect("mongodb://localhost:27017/blogDB")
+    .then((mongoInstance) => {
+      console.log(
+        `MongoDB Connected!! DB Host: ${mongoInstance.connection.host}`
+      );
       callback();
     })
     .catch((error) => {
       console.log("MongoDB Connection Error:", error);
-      throw error;
     });
 };
-
-const getDB = () => {
-  if (_db) {
-    return _db;
-  }
-  throw "No Database Found.";
-};
-
 exports.connectMongoDB = connectMongoDB;
-exports.getDB = getDB;
+////////////////      FOR CONNECT MONGOOSE DATABASE END     ////////////////
+
+////////////////      FOR CONNECT MONGODB DATABASE END     ////////////////
+// const mongodb = require("mongodb");
+// const MongoClient = mongodb.MongoClient;
+// let _db;
+
+// const connectMongoDB = (callback) => {
+//   MongoClient.connect(
+//     "mongodb+srv://mhi_tech628:MongoDB628@mhi-tech-cluster.agylcqm.mongodb.net/blogDB?retryWrites=true&w=majority&appName=MHI-Tech-Cluster"
+//   )
+//     .then((client) => {
+//       console.log("MongoDB Connected");
+//       _db = client.db();
+//       callback();
+//     })
+//     .catch((error) => {
+//       console.log("MongoDB Connection Error:", error);
+//       throw error;
+//     });
+// };
+
+// const getDB = () => {
+//   if (_db) {
+//     return _db;
+//   }
+//   throw "No Database Found.";
+// };
+
+// exports.connectMongoDB = connectMongoDB;
+// exports.getDB = getDB;
 ////////////////      FOR CONNECT MONGODB DATABASE END     ////////////////
 
 ////////////////      FOR CONNECT SEQUELIZE DATABASE START     ////////////////
